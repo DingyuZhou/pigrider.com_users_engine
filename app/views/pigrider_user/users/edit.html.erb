@@ -1,0 +1,82 @@
+<% provide(:webpageTitle, "Manage Account") %>
+
+<% provide :webpageMetaTag do %>
+  <meta name="keywords" content="PigRider User Manage Account" />
+  <meta name="description" content="PigRider User Manage Account" />
+<% end %>
+
+
+<%= link_to "Sign Out", pigrider_user.signOutUser_path %><br />
+<%= link_to "Back to Account Home Page", pigrider_user.showUser_path(session[:iRememberedUserid]) %><br />
+<% if isAdministrator %>
+  <%= link_to "Manage All Users", pigrider_user.manageAllUsers_path %><br />
+<% end %>
+<br /><br />
+
+
+<div>
+  <% if @dUser.errors.any? %>    
+    <div class="ErrorReportContainer">
+      <ul>
+      <% @dUser.errors.each do |attr,msg| %>
+        <% if msg=="doesn't match confirmation" %>
+          <li>Password doesn't match confirmation</li>
+        <% else %>
+          <li><%= msg %></li>
+        <% end %>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+
+
+<h2>Manage the User: <%= @dUser.username %></h2>
+<br />
+
+<% if userSignedIn(@dUser.id) || isAdministrator %>
+  <h2>Change Password</h2>
+  <%= form_for(:changePassword, :url=>pigrider_user.updateUser_path(@dUser.id)) do |f| %>
+    Old Password: <%= f.password_field :old_password %>
+    <% if isAdministrator %><i style="color:red;">(PigRider administrator's password also works.)</i><% end %><br />
+    New Password: <%= f.password_field :password %><br />  
+    New Password Again: <%= f.password_field :password_confirmation %><br />
+    <%= f.submit "Change Password" %><br />
+  <% end %>
+  <br /><br /><br />
+  
+  <h2>Change Email</h2>
+  <%= form_for(:changeEmail, :url=>pigrider_user.updateUser_path(@dUser.id)) do |f| %>
+    Email: <%= f.text_field :email, :value=>@dUser.email %><br />
+    Password: <%= f.password_field :password %>
+    <% if isAdministrator %><i style="color:red;">(PigRider administrator's password also works.)</i><% end %><br />
+    <%= f.submit "Change Email" %><br />
+  <% end %>
+  <br /><br /><br />
+  
+  <h2>Delete the User</h2>
+  <%= form_for(:deleteUser, :url=>pigrider_user.destroyUser_path(@dUser.id)) do |f| %>
+    Username: <%= @dUser.username %><br />
+    Password: <%= f.password_field :password %>
+    <% if isAdministrator %><i style="color:red;">(PigRider administrator's password also works.)</i><% end %><br />
+    <%= f.submit "Delete the User", :confirm=>"Are you sure to delete this user?" %><br />
+  <% end %>
+  <br /><br /><br />
+  
+  <% if isAdministrator %>
+    <h2>Change the Authority Level</h2>
+    <%= form_for(:changeAuthorityLevel, :url=>pigrider_user.updateUser_path(@dUser.id)) do |f| %>
+      Current Authority Level: <%= @dUser.authorityLevel %><br />
+      Avaliable Authority Levels: <b><i style="color:blue;">PigRider Developer</i></b> and <b><i style="color:blue;">PigRider Administrator</i></b><br />
+      New Authority Level: <%= f.text_field :authorityLevel, :value=>@dUser.authorityLevel %><br />
+      PigRider Administrator's Password: <%= f.password_field :password %><br />
+      <%= f.submit "Change the Authority Level" %><br />
+    <% end %>
+  <% end %>
+  <br /><br /><br />
+  
+<% else %>
+  Sorry, you don't have the right to see other user's profile.<br /><br />
+  <%= link_to "Go back to your own profile page.", pigrider_user.showUser_path(session[:iRememberedUserid]) %>
+<% end %>
+

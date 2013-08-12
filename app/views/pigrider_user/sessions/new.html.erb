@@ -1,0 +1,37 @@
+<% provide(:webpageTitle, "Sign In") %>
+
+<% provide :webpageMetaTag do %>
+  <meta name="keywords" content="PigRider User Sign In" />
+  <meta name="description" content="PigRider User Sign In" />
+<% end %>
+
+
+<h2>Sign In</h2>
+
+<div>
+  <%= form_for(:session, :url=>pigrider_user.createSession_path) do |f| %>
+    Username: <%= f.text_field :username, :value=>@dUser.username %><br />
+    Password: <%= f.password_field :password %><br />
+    
+    <%= f.submit "Sign In" %><br />
+  <% end %>
+</div>
+<br />
+<div>
+  <%= link_to "Forgot the Password?", pigrider_user.forgetPassword_path %><br />
+  <%= link_to "Sign Up (Only for Pig Rider Developer)", pigrider_user.newUser_path %>
+</div>
+
+<br /><br />
+<div>
+  <% if @dUser.errors.any? %>    
+    <div class="ErrorReportContainer">
+      <ul>
+      <% @dUser.errors.each do |attr,msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+

@@ -1,0 +1,21 @@
+<% provide(:webpageTitle, "Manage All PigRider Users") %>
+
+<% provide :webpageMetaTag do %>
+  <meta name="keywords" content="Manage All PigRider Users" />
+  <meta name="description" content="Manage All PigRider Users" />
+<% end %>
+
+
+<%= link_to "Sign Out", pigrider_user.signOutUser_path %><br />
+<%= link_to "Back to Account Home Page", pigrider_user.showUser_path(session[:iRememberedUserid]) %><br /><br /><br />
+
+
+<h2>All Users:</h2>
+<br />
+<% @dAllUsers.each do |u| %>
+  Username: <%= u.username %> &#160; &#160; &#160;
+  Email: <%= u.email %> &#160; &#160; &#160;
+  Authority Level: <%= u.authorityLevel %> &#160; &#160; &#160;
+  <%= link_to "Edit or Delete User", pigrider_user.editUser_path(u.id) %>
+  <br />
+<% end %>

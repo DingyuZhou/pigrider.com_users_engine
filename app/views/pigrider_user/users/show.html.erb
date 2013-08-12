@@ -1,0 +1,30 @@
+<% sContent="Welcome "+@dUser.username+"!" %>
+<% provide :webpageTitle, sContent %>
+
+<% provide :webpageMetaTag do %>
+  <meta name="keywords" content="PigRider User" />
+  <meta name="description" content="PigRider User" />
+<% end %>
+
+
+<% if userSignedIn(@dUser.id) || isAdministrator %>
+  Welcome <b><i><%= @dUser.username %></i></b> (<%= @dUser.authorityLevel %>) ! &#160; &#160; &#160;
+  <% if !params[:sMessage].nil?%><i style="color:red;"><%= params[:sMessage] %></i><% end %><br />
+  Email: <%= @dUser.email %><br />
+  <%= link_to "Sign Out", pigrider_user.signOutUser_path %><br /><br /><br />
+  <% if isAdministrator %>
+    <% if @dUser.id==session[:iRememberedUserid] %>
+      <%= link_to "Manage My Account", pigrider_user.editUser_path(@dUser.id) %>&#160; &#160; &#160;
+    <% else %>
+      <%= link_to "Go Back to My Account", pigrider_user.showUser_path(session[:iRememberedUserid]) %> &#160; &#160; &#160;
+      <%= link_to "Manage This User", pigrider_user.editUser_path(@dUser.id) %>&#160; &#160; &#160;
+    <% end %>
+    <%= link_to "Manage All Users", pigrider_user.manageAllUsers_path %><br />
+  <% else %>
+    <%= link_to "Manage My Account", pigrider_user.editUser_path(@dUser.id) %><br />
+  <% end %>
+  <%= render 'showUserPlugIn' %>
+<% else %>
+  Sorry, you don't have the right to see other user's profile.<br /><br />
+  <%= link_to "Go back to your own profile page.", pigrider_user.showUser_path(session[:iRememberedUserid]) %>
+<% end %>
