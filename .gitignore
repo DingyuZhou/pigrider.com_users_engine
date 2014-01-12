@@ -7,3 +7,6 @@ test/dummy/tmp/
 test/dummy/.sass-cache
 
 .project
+
+# Ignore Gemfile.lock
+/Gemfile.lock
