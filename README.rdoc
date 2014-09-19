@@ -1,3 +1,8 @@
-= PigriderUser
+This is the source code for the user engine (Ruby on Rails) that is developed for websites:
+http://account.pigrider.com/
+http://blogs.pigrider.com/
+http://tools.pigrider.com/
 
-This project rocks and uses MIT-LICENSE.
+
+The manual of this user engine:
+http://blogs.pigrider.com/blogs/17
