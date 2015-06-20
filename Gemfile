@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem 'mysql2', '0.3.11'
-gem 'bcrypt-ruby', '3.0.1'
+gem 'mysql2', '0.3.18'
+gem 'bcrypt', '3.1.10'
 
 # Declare your gem's dependencies in pigrider_user.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
