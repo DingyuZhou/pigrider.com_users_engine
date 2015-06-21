@@ -1,21 +1,9 @@
-require 'bcrypt'
-
 module PigriderUser
   class User < ActiveRecord::Base
-    include BCrypt
-
     establish_connection "pigrider_user_#{Rails.env}"
 
     attr_accessible :authorityLevel, :email, :password, :password_confirmation, :username
-
-    def password
-      @password ||= Password.new(password_hash)
-    end
-
-    def password=(new_password)
-      @password = Password.create(new_password)
-      self.password_hash = @password
-    end
+    has_secure_password
 
     validates :username, length:{minimum:5,maximum:50,message:"The length of Username should be between 5 and 50 characters."}
     validates_uniqueness_of :username, message:"This username has already been registered."
